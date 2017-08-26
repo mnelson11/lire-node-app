@@ -1,0 +1,25 @@
+{
+  "name": "lire-node-app",
+  "version": "1.0.0",
+  "description": "Contains npm installations",
+  "main": "index.js",
+  "dependencies": {
+    "geocoder": "^0.2.3",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mnelson11/lire-node-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mnelson11/lire-node-app/issues"
+  },
+  "homepage": "https://github.com/mnelson11/lire-node-app#readme"
+}
