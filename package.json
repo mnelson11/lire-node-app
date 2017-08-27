@@ -1,12 +1,15 @@
 {
-  "name": "lire-node-app",
+  "name": "liri-json",
   "version": "1.0.0",
-  "description": "Contains npm installations",
-  "main": "index.js",
+  "description": "contains packages needed",
+  "main": "liri.js",
   "dependencies": {
     "geocoder": "^0.2.3",
+    "inquirer": "^3.2.2",
     "node-spotify-api": "^1.0.7",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "twitter": "^1.7.1",
+    "spotify": "^0.3.0"
   },
   "devDependencies": {},
   "scripts": {
