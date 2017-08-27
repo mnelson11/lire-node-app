@@ -1,5 +1,4 @@
 var inquirer = require('inquirer');
-var Twitter = require('twitter');
 var request = require('request');
 
 
@@ -8,7 +7,60 @@ var request = require('request');
 
 
 		if(process.argv[2]=='tweets'){
-			console.log('this is loaded');
+			twitter();
+		}
+
+		else if(process.argv[2]=='spotify'){
+			if(process.argv[3]===undefined){ var song = 'dancing+queen';}
+			else{var song = process.argv.slice(3).join("+");}
+
+			spotify(song);
+		}
+
+
+
+		else if(process.argv[2]=='movie'){
+			if(process.argv[3]===undefined)
+				{var title="mr.nobody";}
+			else{var title = process.argv.slice(3).join("+");}
+			
+			movie(title);
+
+		}
+		else if(process.argv[2]=='do-this'){
+			console.log("the random.txt file can save and run the same commands that you would enter as arguments into the terminal.");
+			console.log(" For example, try entering: 'movie the lion king', or 'tweets', or 'spotify man in the mirror'.");
+			console.log("");
+			var fs = require('fs');
+			fs.readFile('random.txt', 'utf8', function(err, data){
+				if(err){
+					console.log(err);
+					return console.error(err);
+				}
+				var dataArr = data.split(" ");
+
+				if(dataArr[0]=='tweets')
+					{twitter();}
+				else if(dataArr[0]=='spotify')
+					{var song = dataArr.slice(1).join("+");
+						spotify(song);}
+				else if(dataArr[0]=='movie')
+					{var title = dataArr.slice(1).join("+");
+						movie(title);}
+			});
+
+
+
+		}else {console.log("Invalid command. Correct commands are:");
+				console.log("tweets");
+				console.log("'spotify' then the song name");
+				console.log("'movie' then the movie title");
+				console.log("'do-this' to use the text file command.");}
+  // do something with data 
+
+  function twitter(){
+  	console.log('Loading...');
+			var Twitter = require('twitter');
 			var client = new Twitter({
 			  consumer_key: '5GYgTYc7ezdbblZbgc26jK4V9',
 			  consumer_secret: '3Za1FM7HdwPxqGN92NgDdhfHPPMStnhEYDoubeJ5UcU8sboXnb',
@@ -19,19 +71,14 @@ var request = require('request');
 			var params = {screen_name: 'felineFiend69'};
 			client.get('statuses/user_timeline', params, function(error, tweets, response) {
 			  if (!error) {
-			    console.log(tweets);
-			  }
+			    for(var i=0; i<20;i++)
+			    	{console.log(tweets[i].text);}
+			  } else{console.log(error);}
 			});
-		}
+  }
 
-
-
-
-
-		else if(process.argv[2]=='spotify'){
-			
-			var Spotify = require('node-spotify-api');
- 			var song = process.argv.slice(3).join("+");
+  function spotify(song){
+  	var Spotify = require('node-spotify-api');
 			var spotify = new Spotify({
 			  id: '5550ae159db2450b82f5ce79459573ce',
 			  secret: 'acc953cda7e04820b878118582f9ac19'
@@ -41,17 +88,19 @@ var request = require('request');
 			  if (err) {
 			    return console.log('Error occurred: ' + err);
 			  }
-			 
-			console.log(data); 
+				var songInfo = data.tracks.items[0]; 
+				console.log("Artist: "+songInfo.artists[0].name);
+				console.log("Song: "+songInfo.name);
+				console.log("Album: "+songInfo.album.name);
+				console.log("Preview Link: "+songInfo.preview_url); 
 			});
+  }
 
-		}
+  function movie(title){
 
-
-
-		else if(process.argv[2]=='movie'){
-			var movie = process.argv.slice(3).join("+");
-			var queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=40e9cece";
+			
+			// if (movie== undefined){movie = "meet+joe+black";}
+			var queryURL = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece";
 
 			var request = require('request');
 
@@ -68,15 +117,9 @@ var request = require('request');
 				console.log("Actors in Movie: "+ obj.Actors);
 
 				//console.log(obj);
-			}else {console.log("error");}
+			}else {console.log(error);}
 
-});
-
-		}else {console.log("Invalid command. Correct commands are:");
-				console.log("tweets");
-				console.log("'spotify' then the song name");
-				console.log("'movie' then the movie title");
-				console.log("'do-this' to use the text file command.");}
-  // do something with data 
+		});
+  }
 
 
